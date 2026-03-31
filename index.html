@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Calculator</title>
+
+<style>
+body {
+    margin: 0;
+    background: #111;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.calculator {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+}
+
+.display {
+    background: #000;
+    color: white;
+    font-size: 2.5em;
+    text-align: right;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    overflow-x: auto;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    padding: 18px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 50px;
+    background: #333;
+    color: white;
+}
+
+button.orange {
+    background: orange;
+    color: white;
+}
+
+button.operator {
+    background: #444;
+}
+
+button.wide {
+    grid-column: span 2;
+    border-radius: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="calculator">
+    <div id="display" class="display">0</div>
+
+    <div class="buttons">
+
+        <!-- Memory Row -->
+        <button class="orange">DEG</button>
+        <button class="orange">MC</button>
+        <button class="orange">MR</button>
+        <button class="orange">M+</button>
+
+        <!-- Controls -->
+        <button onclick="clearDisplay()">AC</button>
+        <button onclick="deleteLast()">C</button>
+        <button onclick="append('%')">%</button>
+        <button onclick="append('/')">÷</button>
+
+        <!-- Numbers -->
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('*')">×</button>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('-')">−</button>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="append('+')">+</button>
+
+        <button class="wide" onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+        <button onclick="calculate()">=</button>
+
+        <!-- Scientific -->
+        <button onclick="scientific('sin')">sin</button>
+        <button onclick="scientific('cos')">cos</button>
+        <button onclick="scientific('tan')">tan</button>
+        <button onclick="scientific('asin')">asin</button>
+
+    </div>
+</div>
+
+<script>
+let display = document.getElementById("display");
+
+function append(value) {
+    if (display.innerText === "0") display.innerText = value;
+    else display.innerText += value;
+}
+
+function clearDisplay() {
+    display.innerText = "0";
+}
+
+function deleteLast() {
+    display.innerText = display.innerText.slice(0, -1) || "0";
+}
+
+function calculate() {
+    try {
+        display.innerText = eval(display.innerText);
+    } catch {
+        display.innerText = "Error";
+    }
+}
+
+function scientific(func) {
+    let value = parseFloat(display.innerText);
+    let result;
+
+    switch(func) {
+        case "sin": result = Math.sin(value); break;
+        case "cos": result = Math.cos(value); break;
+        case "tan": result = Math.tan(value); break;
+        case "asin": result = Math.asin(value); break;
+    }
+
+    display.innerText = result;
+}
+</script>
+
+</body>
+</html>
